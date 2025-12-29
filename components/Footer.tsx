@@ -48,13 +48,13 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-4">Get in Touch</h4>
             <ul className="space-y-2 text-neutral-400">
               <li>
-                <a href="mailto:hello@recapreels.com" className="hover:text-white transition-colors">
-                  hello@recapreels.com
+                <a href="mailto:recapreelsbusiness@gmail.com" className="hover:text-white transition-colors">
+                  recapreelsbusiness@gmail.com
                 </a>
               </li>
               <li>
-                <a href="tel:+1234567890" className="hover:text-white transition-colors">
-                  +1 (234) 567-890
+                <a href="tel:+916304583037" className="hover:text-white transition-colors">
+                  +91 630-458-3037
                 </a>
               </li>
             </ul>

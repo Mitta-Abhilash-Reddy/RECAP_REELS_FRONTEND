@@ -233,10 +233,10 @@ export default function Contact() {
                   <div className="ml-4">
                     <h3 className="text-lg font-semibold text-neutral-900 mb-1">Email</h3>
                     <a
-                      href="mailto:hello@recapreels.com"
+                      href="mailto:recapreelsbusiness@gmail.com"
                       className="text-neutral-600 hover:text-indigo-600 transition-colors"
                     >
-                      hello@recapreels.com
+                      recapreelsbusiness@gmail.com
                     </a>
                   </div>
                 </div>
@@ -258,10 +258,10 @@ export default function Contact() {
                   <div className="ml-4">
                     <h3 className="text-lg font-semibold text-neutral-900 mb-1">Phone</h3>
                     <a
-                      href="tel:+1234567890"
+                      href="tel:+916304583037"
                       className="text-neutral-600 hover:text-indigo-600 transition-colors"
                     >
-                      +1 (234) 567-890
+                      +91 630-458-3037
                     </a>
                   </div>
                 </div>
@@ -283,9 +283,13 @@ export default function Contact() {
                   </div>
                   <div className="ml-4">
                     <h3 className="text-lg font-semibold text-neutral-900 mb-1">Location</h3>
-                    <p className="text-neutral-600">
-                      Serving businesses worldwide
-                    </p>
+                    <a
+                      href="https://maps.app.goo.gl/dovKBQok45w6mrJu9"
+                      className="text-neutral-600 hover:text-indigo-600 transition-colors"
+                    >
+                      Sri Sri Gurudatta Apartments, Plot Nos. 679 & 682,
+                      Gokul Plots, KPHB, Hyderabad, Telangana, India - 500072
+                    </a>
                   </div>
                 </div>
               </div>
