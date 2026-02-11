@@ -16,6 +16,7 @@ export default function Contact() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -28,20 +29,48 @@ export default function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
+    setErrorMessage('');
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitStatus('success');
-      setFormData({
-        name: '',
-        email: '',
-        company: '',
-        phone: '',
-        service: '',
-        message: '',
+    const apiBase = process.env.NEXT_PUBLIC_API_URL || '';
+    const payload = {
+      fullName: formData.name,
+      businessEmail: formData.email,
+      companyName: formData.company,
+      phoneNumber: formData.phone,
+      projectDetails: formData.message,
+    };
+
+    try {
+      const res = await fetch(`${apiBase}/api/lead/submit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
-    }, 1500);
+
+      if (res.ok) {
+        setSubmitStatus('success');
+        setErrorMessage('');
+        setFormData({ name: '', email: '', company: '', phone: '', service: '', message: '' });
+      } else {
+        // Parse backend error response
+        try {
+          const errorData = await res.json();
+          setErrorMessage(errorData.message || 'Submission failed. Please try again.');
+        } catch {
+          setErrorMessage(`Submission failed with status ${res.status}. Please try again.`);
+        }
+        setSubmitStatus('error');
+      }
+    } catch (err) {
+      setErrorMessage(
+        err instanceof Error
+          ? err.message
+          : 'Network error. Please check your connection and try again.'
+      );
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -180,6 +209,18 @@ export default function Contact() {
                     placeholder="Tell us about your project, timeline, and goals..."
                   />
                 </div>
+
+                {submitStatus === 'error' && (
+                  <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-800 flex items-start gap-3">
+                    <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    </svg>
+                    <div className="flex-1">
+                      <p className="font-semibold">Submission failed</p>
+                      <p className="text-sm mt-1">{errorMessage}</p>
+                    </div>
+                  </div>
+                )}
 
                 {submitStatus === 'success' && (
                   <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-green-800">

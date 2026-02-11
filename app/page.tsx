@@ -114,7 +114,7 @@ export default function Home() {
                         <video
                           src={reel.src}
                           className="reel-img"
-                          loading="lazy"
+                          // loading="lazy"
                           muted
                           loop
                           playsInline
