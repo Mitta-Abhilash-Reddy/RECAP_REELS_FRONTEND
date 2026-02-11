@@ -5,6 +5,20 @@ import Button from '@/components/Button';
 import Link from 'next/link';
 
 export default function Home() {
+  const reels = [
+    { title: 'RecapReels Project 1', src: '/reels/v1.mp4' },
+    { title: 'RecapReels Project 2', src: '/reels/v1 copy.mp4' },
+    { title: 'RecapReels Project 3', src: '/reels/v1 copy 2.mp4' },
+    { title: 'RecapReels Project 4', src: '/reels/v1 copy 3.mp4' },
+    { title: 'RecapReels Project 5', src: '/reels/v1 copy 4.mp4' },
+  ];
+
+  const handleCtaMove = (event: React.MouseEvent<HTMLElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    event.currentTarget.style.setProperty('--x', `${x}%`);
+  };
+
   return (
     <div className="pt-20">
       {/* Hero Section */}
@@ -25,14 +39,43 @@ export default function Home() {
               Professional reels, event highlights, promotional content, and brand storytelling 
               that drives engagement, generates leads, and accelerates business growth.
             </p>
-            <div className="flex flex-col sm:flex-row gap-10 justify-center">
-              <Button href="/contact" variant="primary" className="text-lg px-10 py-5 text-lg font-semibold">
-                Book a Demo
-              </Button>
-              <Button href="/services" variant="outline" className="text-lg px-10 py-5 text-lg font-semibold">
-                Get a Quote
-              </Button>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.7, ease: 'easeOut' }}
+              className="flex flex-col sm:flex-row gap-6 justify-center"
+            >
+              <Link
+                href="/contact"
+                className="cta-pill cta-pill--violet"
+                onMouseMove={handleCtaMove}
+                onMouseEnter={handleCtaMove}
+              >
+                <span className="cta-pill__text">Book a Demo</span>
+                <span className="cta-pill__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M5 12h12" strokeLinecap="round" />
+                    <path d="M13 6l6 6-6 6" strokeLinecap="round" />
+                  </svg>
+                </span>
+              </Link>
+              <Link
+                href="/services"
+                className="cta-pill cta-pill--dark"
+                onMouseMove={handleCtaMove}
+                onMouseEnter={handleCtaMove}
+              >
+                <span className="cta-pill__text">Get a Quote</span>
+                <span className="cta-pill__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M6 8h12" strokeLinecap="round" />
+                    <path d="M6 12h8" strokeLinecap="round" />
+                    <path d="M6 16h6" strokeLinecap="round" />
+                  </svg>
+                </span>
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -55,56 +98,41 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {[
-              {
-                title: 'Social Media Reels',
-                description: 'Engaging short-form content optimized for Instagram, TikTok, LinkedIn, and YouTube Shorts that captures attention and drives engagement.',
-                icon: '🎬',
-              },
-              {
-                title: 'Event Recap Videos',
-                description: 'Professional highlights from conferences, product launches, corporate events, and trade shows that showcase your brand.',
-                icon: '📹',
-              },
-              {
-                title: 'Promotional Content',
-                description: 'Compelling video ads and promotional content that convert viewers into customers and boost your marketing ROI.',
-                icon: '🚀',
-              },
-              {
-                title: 'Brand Storytelling',
-                description: 'Authentic narratives that communicate your brand values, mission, and unique value proposition to your target audience.',
-                icon: '✨',
-              },
-              {
-                title: 'Fast Turnaround',
-                description: 'Quick delivery without compromising quality. Get your content when you need it to stay ahead of trends and opportunities.',
-                icon: '⚡',
-              },
-              {
-                title: 'Professional Editing',
-                description: 'Expert post-production with color grading, motion graphics, sound design, and platform-specific optimization.',
-                icon: '🎨',
-              },
-            ].map((service, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="py-14 px-8 bg-gradient-to-br from-white to-indigo-50/30 rounded-3xl hover:shadow-2xl transition-all duration-300 border border-neutral-200/50 hover:border-indigo-200 hover:-translate-y-1"
-              >
-                <div className="text-6xl mb-16">{service.icon}</div>
-                <h3 className="text-2xl md:text-3xl font-bold text-neutral-900 mb-12 leading-tight">
-                  {service.title}
-                </h3>
-                <p className="text-neutral-600 leading-relaxed text-base">
-                  {service.description}
-                </p>
-              </motion.div>
-            ))}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+            <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+
+            <div className="overflow-hidden rounded-3xl border border-neutral-200/70 bg-gradient-to-br from-white to-neutral-50/60 shadow-[0_30px_80px_-50px_rgba(79,70,229,0.35)]">
+              <div className="reel-marquee">
+                <div className="reel-track">
+                  {[...reels, ...reels].map((reel, index) => (
+                    <div
+                      key={`${reel.src}-${index}`}
+                      className="reel-card"
+                    >
+                      <div className="reel-media">
+                        <video
+                          src={reel.src}
+                          className="reel-img"
+                          loading="lazy"
+                          muted
+                          loop
+                          playsInline
+                          autoPlay
+                        />
+                        <div className="reel-overlay">
+                          <div className="reel-badge">RecapReels</div>
+                          <div className="reel-title">{reel.title}</div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <p className="text-center text-sm text-neutral-500 mt-6">
+              Scroll showcasing recent reels. Replace placeholders with your videos anytime.
+            </p>
           </div>
         </div>
       </section>
